@@ -1,14 +1,9 @@
-from flask import Flask, Blueprint, jsonify, make_response, request, render_template
+# flake8: noqa
+
+from flask import Flask, jsonify, request
 from datetime import datetime
-import sys
-import operator
 import requests
-
-# Imports the Google Cloud client library
 from google.cloud import language, storage
-from google.cloud.language import enums
-from google.cloud.language import types
-
 import nltk
 from nltk.stem.wordnet import WordNetLemmatizer
 from bs4 import BeautifulSoup
@@ -22,9 +17,7 @@ app = Flask(__name__)
 @app.before_first_request
 def startup():
     nltk.download("wordnet")
-    storage_client = storage.Client.from_service_account_json(
-        "./PlainPrivacyGoogle.json"
-    )
+    storage.Client.from_service_account_json("./PlainPrivacyGoogle.json")
 
 
 @app.route("/")
@@ -71,7 +64,7 @@ def homepage():
 @app.route("/analyzeUrl")
 def analyzeUrl():
     # print("begin analysis...")
-    url = request.args["url"]
+    # request.args["url"]
     text = readUrl(request.args["url"])
     # print("received text...")
     if not text:
@@ -98,7 +91,7 @@ def readUrl2(urlString):
         soup = BeautifulSoup(htmlString)
         text = soup.get_text()
         return text
-    except:
+    except Exception:
         return False
 
 
@@ -247,8 +240,6 @@ def mapKeyword(keyword):
         return "gender"
     elif keyword == "passport":
         return "passport information"
-    elif keyword == "broswer":
-        return "broswer information"
 
     return keyword
 
