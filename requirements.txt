@@ -7,3 +7,4 @@ gensim
 model_mommy
 ujson
 codecov
+flake8
