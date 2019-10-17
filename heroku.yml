@@ -1,0 +1,7 @@
+# This file is used for continuous deployment in our Heroku pipeline.
+# In order for heroku to know to build our docker container
+# instead of a Procfile, this file is necessary
+
+build:
+  docker:
+    web: Dockerfile

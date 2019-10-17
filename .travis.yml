@@ -1,0 +1,38 @@
+language: python
+
+sudo: false
+
+cache: pip3
+
+python:
+  - '3.7'
+
+branches:
+  only:
+  - master
+
+env:
+  - DJANGO=2.0 DB=postgres
+
+os:
+  - linux
+
+services:
+  - postgresql
+
+install:
+  - pip3 install -r requirements.txt
+  - pip3 install django==$DJANGO
+
+before_script:
+   - psql -c 'create database travis_ci_test;' -U postgres
+
+script:
+  - python manage.py makemigrations
+  - python manage.py migrate
+
+notifications:
+  email:
+    recipients:
+      - mhawes24@gmail.com
+    on_success: always
