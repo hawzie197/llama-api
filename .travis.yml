@@ -30,9 +30,14 @@ before_script:
 script:
   - python manage.py makemigrations
   - python manage.py migrate
+  - coverage run manage.py test
+  - flake8 .
 
 notifications:
   email:
     recipients:
       - mhawes24@gmail.com
     on_success: always
+
+after_success:
+  codecov --token=26c86d26-cf25-44e5-84d4-9b3b559d576d
