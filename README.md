@@ -8,7 +8,8 @@
 [![flake8](https://img.shields.io/badge/linter-flake8-lightgrey)](https://img.shields.io/badge/linter-flake8-lightgrey)
 
 ## Overview
-A guard based chrome extension that lets you know if a company allows deletion of your data before you signup, based on their privacy policy.
+pyllama automatically summarizes main points in the privacy policies whenever a user visits a signup page of a website. On page load, the pyllama searches for its privacy policy. If found, the extension parses the privacy policy using Natural Language Processing, and then displays 'what the website collects', 'why it collects that information', and whether or not the site adhears to gdpr allowing its user to delete personal data points off the company's servers for good.
+If no policy is found, or a low confidence interval is returned, a warning is displayed to the user.
 
 
 ### Quick Setup
