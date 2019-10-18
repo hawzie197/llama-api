@@ -28,7 +28,7 @@ def tag_visible(element):
 def text_from_html(body):
     """
     Gets all raw text from html, removing all tags.
-    
+
     :param body: html
     :return: str
     """
@@ -41,7 +41,7 @@ def text_from_html(body):
 def get_site_html(url: str):
     """
     Parses a url and downloads all html from the page.
-    
+
     :param url: str
     :return: html
     """
@@ -53,7 +53,7 @@ def get_site_tags(html, tags=["a"]):
     """
     Build out a list of all html tags containing only tags
     existing in the tags parameter.
-    
+
     :param: html: str
     :param: tags: list<str>
     """
@@ -70,7 +70,7 @@ def find_privacy_link(links):
     """
     Find the link with the highest chance of matching Privacy Policy. If the
     link does not contain Privacy or policy in it, it definitely is not a privacy policy
-    
+
     :param links: list<str>
     :return: Link or None
     """
@@ -186,7 +186,7 @@ def back_an_forth(text, keywords, actions, tolerance, sally):
 def format_results(results):
     """
     Format the results to be more human readable.
-    
+
     :param results: dict
     :return: dict
     """
@@ -202,7 +202,7 @@ def format_results(results):
 def expand_keyword(keyword):
     """
     May a keyword to a general phrase to expand the term.
-    
+
     :param keyword: str
     :return: str
     """
