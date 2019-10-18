@@ -40,3 +40,8 @@ Follow [this](https://github.com/psf/black), ctrl-f for `Optionally, run Black o
 ```bash
 docker-compose run django ./manage.py test
 ```
+
+### Example Case
+```bash
+http://localhost:8000/api/analyze/?url=https://www.nytimes.com/
+```

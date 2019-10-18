@@ -8,3 +8,4 @@ model_mommy
 ujson
 codecov
 flake8
+fuzzywuzzy[speedup]
