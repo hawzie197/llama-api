@@ -2,7 +2,8 @@
 [![Build Status](https://travis-ci.com/hawzie197/pyllama.svg?branch=master)](https://travis-ci.com/hawzie197/pyllama)
 [![codecov](https://codecov.io/gh/hawzie197/pyllama/branch/master/graph/badge.svg)](https://codecov.io/gh/hawzie197/pyllama)
 <a href="https://codeclimate.com/github/hawzie197/pyllama/maintainability"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
-[![Python 3.6](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Known Vulnerabilities](https://snyk.io/test/github/hawzie197/pyllama/badge.svg)](https://snyk.io/test/github/hawzie197/pyllama/)
+[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![Django 2.0](https://img.shields.io/badge/Django-2.0-blue.svg)](https://docs.djangoproject.com/en/2.1/releases/2.0/)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 [![flake8](https://img.shields.io/badge/linter-flake8-lightgrey)](https://img.shields.io/badge/linter-flake8-lightgrey)
