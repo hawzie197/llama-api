@@ -304,13 +304,14 @@ def get_data(text, actions, action):
         # # TODO tolerance value should be calculated based on existing data sets
         # front = min(len(all_words) - 1, index + tolerance)
         # sentence_containing_action = " ".join(all_words[back:front+1])
-        if word not in used:# and root not in used:
+        if word not in used or root not in used:
             for idx in sentence_map[word]:
                 results[action].append(all_sentences[idx])
             #results[root].append(sentence_containing_action)
             used.add(word)
             #used.add(root)
     #ranked = rank_results(results)
+    return results
 
 
 def rank_results(results):
