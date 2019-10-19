@@ -11,6 +11,3 @@ RUN pip install -r requirements.txt
 
 # Now copy in our code, and run it
 COPY . /app
-
-# run gunicorn
-CMD gunicorn core.wsgi:application --bind 0.0.0.0:$PORT

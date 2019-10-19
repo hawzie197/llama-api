@@ -11,7 +11,8 @@ from api.analyze.classifier import open_classifier, \
     find_features, \
     lemmatize_all_words, \
     get_tokenized_sentences, \
-    get_top_sentences
+    get_top_sentences, \
+    find_features
 
 import os
 import csv
@@ -44,6 +45,7 @@ def test_corpus(corpus, check):
         ratio = fuzz.ratio(check, line)#normalize(line)
         ratios.append(ratio)
     return ratios
+
 def tag_visible(element):
     if element.parent.name in [
         "style",
@@ -199,6 +201,20 @@ def load_other_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+def get_classifier_result(action, text):
+    all_words = get_words()
+    features = get_word_features(all_words)
+
+    tolerance = 60
+    keywords = load_keywords()
+    all_actions = {}
+    all_actions[action] = load_actions_key(action)
+    results = get_data(text, keywords, all_actions[action], tolerance)
+    classified = []
+    for word in results:
+        classifier_result = verify_statement(results[word], features)
+        classified.append((" ".join(results[word]), classifier_result))
+    return classified
 
 def get_fuzzy_result(action, text):
     all_actions = {}
@@ -268,8 +284,6 @@ def get_data(text, actions, action):
             all_words.append(word)
             sentence_map[word].append(idx)
 
-
-    # all_words = text.split()
     wnl = WordNetLemmatizer()
     index = 0
     end = len(all_words)
@@ -298,7 +312,6 @@ def get_data(text, actions, action):
             #used.add(root)
     #ranked = rank_results(results)
 
-    return results
 
 def rank_results(results):
     for word in results:

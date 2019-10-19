@@ -6,7 +6,8 @@ from api.analyze.utils import (
     # parse_summary,
     # parse_main_points,
     # get_classifier_result,
-    get_fuzzy_result
+    get_fuzzy_result,
+    # get_classifier_result
 )
 from urllib.parse import urlsplit
 from rest_framework.response import Response
@@ -41,7 +42,6 @@ class AnalyzeUrlView(APIView):
         results = get_fuzzy_result("delete", text=privacy_policy_text)
         # summary = parse_summary(text=privacy_policy_text)
         return Response({"Actions": ["delete", ], "Results": results})
-
     """
     Actions are delete store, etc
     results is a list of tuples

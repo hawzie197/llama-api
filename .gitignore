@@ -106,3 +106,9 @@ venv.bak/
 db.sqlite3
 .idea
 .idea/*
+*.idea*
+.idea
+
+.DS_Store
+api/.DS_Store
+
