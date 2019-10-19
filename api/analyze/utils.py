@@ -132,6 +132,17 @@ def load_actions():
     return actions
 
 
+def load_delete_corpus():
+    """
+    Load in the delete corpus.
+    """
+    corpus = set()  # set<list<action, status, sentence>>
+    with open(os.path.join(BASE, "data/delete-data.csv")) as fp:
+        for line in fp:
+            corpus.add(line.split(","))
+    return corpus
+
+
 def load_other_keywords():
     """
     Load in all other keywords

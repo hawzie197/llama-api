@@ -30,7 +30,7 @@ class AnalyzeUrlView(APIView):
             if not pp_url:
                 return Response("Privacy Policy not found.")
 
-        if not "http" or not "https" in pp_url:
+        if "http" or "https" in pp_url:
             pp_url = f"{base_uri}{pp_url}"
 
         # Download all text from PP
