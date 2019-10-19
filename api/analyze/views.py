@@ -49,6 +49,7 @@ class AnalyzeUrlView(APIView):
         all_actions = [action_map]
 
         return Response({"actions" : all_actions, "privacy_policy_link" : pp_url})
+
     """
     Actions are delete store, etc
     results is a list of tuples

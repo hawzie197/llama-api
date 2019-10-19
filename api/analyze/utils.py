@@ -244,6 +244,7 @@ def get_fuzzy_result(action, text):
 
     return [(best_statement, best_ratio, classifier_result)]
 
+
 def get_classifier_result(action, text):
     features = get_word_features(ALL_WORDS)
 
