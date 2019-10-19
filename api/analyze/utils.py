@@ -76,13 +76,20 @@ def find_privacy_link(links):
     """
     policies = dict()
     for link in links:
-        link_text = link.contents[0]
-        ratio = fuzz.token_sort_ratio(link_text, "Privacy Policy")
-        policies[ratio] = link
+        link_contents = link.contents
+        if len(link_contents) > 0:
+            ratio1 = fuzz.token_sort_ratio(link_contents[0], "Privacy Policy")
+            ratio2 = fuzz.token_sort_ratio(link_contents[0], "Data Policy")
+            if ratio1 > ratio2:
+                policies[ratio1] = link
+            else:
+                policies[ratio2] = link
+
     link = policies[max(policies, key=int)]
-    for text in ("privacy", "policy"):
-        if text not in str(link).lower():
-            return None
+    privacy_exists = all([t in str(link).lower() for t in ("privacy",)])
+    data_policy_exists = all([t in str(link).lower() for t in ("data", "policy")])
+    if not any([privacy_exists, data_policy_exists]):
+        return None
     return link
 
 
