@@ -1,0 +1,4 @@
+sell
+sold
+sale
+license
