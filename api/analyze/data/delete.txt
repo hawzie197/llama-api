@@ -1,0 +1,4 @@
+delete
+destroy
+eradicate
+remove

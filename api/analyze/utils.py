@@ -4,11 +4,16 @@ from bs4.element import Comment
 from fuzzywuzzy import fuzz
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim.summarization import summarize
+from collections import defaultdict
+from api.analyze.classifier import open_classifier, \
+    get_words, \
+    get_word_features, \
+    find_features
 import os
 
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-
+classifier = open_classifier()
 
 def tag_visible(element):
     if element.parent.name in [
@@ -119,6 +124,17 @@ def load_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+def load_actions_key(action):
+    """
+    Load in all actions from text file.
+    :return: set()
+    """
+    actions = set()
+    with open(os.path.join(BASE, "data/" + action + ".txt")) as fp:
+        for line in fp:
+            actions.add(line.strip().lower())
+            actions.add(line.strip().lower().capitalize())
+    return actions
 
 def load_actions():
     """
@@ -154,8 +170,23 @@ def load_other_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+def get_classifier_result(action, text):
+    all_words = get_words()
+    features = get_word_features(all_words)
+
+    tolerance = 60
+    keywords = load_keywords()
+    all_actions = {}
+    all_actions[action] = load_actions_key(action)
+    results = get_data(text, keywords, all_actions[action], tolerance)
+    classified = []
+    for word in results:
+        classifier_result = verify_statement(results[word], features)
+        classified.append((" ".join(results[word]), classifier_result))
+    return classified
 
 def parse_main_points(text):
+
     tolerance = 60
     actions = load_actions()
     keywords = load_keywords()
@@ -163,6 +194,32 @@ def parse_main_points(text):
     results = back_an_forth(text, keywords, actions, tolerance, {})
     return format_results(results)
 
+def verify_statement(statement, featureset):
+    feature = find_features(statement, featureset)
+    result = classifier.classify(feature)
+    # TODO if result is 1 maybe add to training data
+    return result
+
+def get_data(text, keywords, actions, tolerance):
+    all_words = text.split()
+    wnl = WordNetLemmatizer()
+    index = 0
+    end = len(all_words)
+    # action_idx = [] # TODO tolerance calculations
+    results = defaultdict(list)
+    while index < end:
+        word = all_words[index]
+        root = wnl.lemmatize(word, "v")
+        back = max(0, index - tolerance)
+        # TODO tolerance value should be calculated based on existing data sets
+        front = min(len(all_words) - 1, index + tolerance)
+        sentence_containing_action = " ".join(all_words[back:front+1])
+        if word in actions:
+            results[word].append(sentence_containing_action)
+        elif root in actions:
+            results[root].append(sentence_containing_action)
+        index += 1
+    return results
 
 def back_an_forth(text, keywords, actions, tolerance, sally):
     score = 0
