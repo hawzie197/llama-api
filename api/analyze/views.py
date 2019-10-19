@@ -45,6 +45,7 @@ class AnalyzeUrlView(APIView):
         action_map["type"] = "Delete"
         action_map["quote"] = results[0][0]
         action_map["confidence"] = results[0][1]
+        action_map["classification"] = results[0][2]
         all_actions = [action_map]
 
         return Response({"actions" : all_actions, "privacy_policy_link" : pp_url})
