@@ -5,7 +5,8 @@ from api.analyze.utils import (
     text_from_html,
     # parse_summary,
     # parse_main_points,
-    get_classifier_result,
+    # get_classifier_result,
+    get_fuzzy_result
 )
 from urllib.parse import urlsplit
 from rest_framework.response import Response
@@ -24,8 +25,8 @@ class AnalyzeUrlView(APIView):
 
         # Parse out url to find privacy policy
         pp_url = get_privacy_policy_url(signup_url)
-
         # If not found, re-run search base_url and search for privacy policy links
+
         if not pp_url:
             pp_url = get_privacy_policy_url(base_uri)
             if not pp_url:
@@ -37,9 +38,10 @@ class AnalyzeUrlView(APIView):
         # Download all text from PP
         html = get_site_html(pp_url)
         privacy_policy_text = text_from_html(body=html)
-        results = get_classifier_result("delete", text=privacy_policy_text)
+        results = get_fuzzy_result("delete", text=privacy_policy_text)
         # summary = parse_summary(text=privacy_policy_text)
         return Response({"Actions": ["delete", ], "Results": results})
+
     """
     Actions are delete store, etc
     results is a list of tuples
