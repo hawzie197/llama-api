@@ -8,12 +8,43 @@ from collections import defaultdict
 from api.analyze.classifier import open_classifier, \
     get_words, \
     get_word_features, \
+    find_features, \
+    lemmatize_all_words, \
+    get_tokenized_sentences, \
+    get_top_sentences, \
     find_features
+
 import os
+import csv
+from fuzzywuzzy import fuzz
 
-
+# flake8: noqa
 BASE = os.path.dirname(os.path.abspath(__file__))
 classifier = open_classifier()
+ALL_WORDS = get_words()
+ROOT = lemmatize_all_words(ALL_WORDS)
+
+
+def load_fuzzy_corpus():
+    fuzzy_data = []
+    with open(os.path.join(BASE, "data/delete-data.csv")) as fcp:
+
+        reader = csv.reader(fcp)
+        for row in reader:
+            # action = row[0]
+            data = row[2]
+            fuzzy_data.append(data)
+    return fuzzy_data
+
+def test_corpus(corpus, check):
+    sum_ = 0
+    best = ""
+    max_ratio = -1
+    ratios = []
+    for line in corpus:
+        ratio = fuzz.ratio(check, line)#normalize(line)
+        ratios.append(ratio)
+    return ratios
 
 def tag_visible(element):
     if element.parent.name in [
@@ -185,6 +216,49 @@ def get_classifier_result(action, text):
         classified.append((" ".join(results[word]), classifier_result))
     return classified
 
+def get_fuzzy_result(action, text):
+    all_actions = {}
+    action_map = {}
+    tolerance = 60
+    all_actions[action] = load_actions_key(action)
+    for act in all_actions[action]:
+        action_map[act] = action
+    result = get_data(text, all_actions[action], action)
+    data = load_fuzzy_corpus()
+    best_statement = ""
+    best_ratio = -1
+    all_lines = {}
+    action = action_map[action]
+    max_idx = 0
+    for index in range(len(result[action])):
+        line = result[action][index]
+
+        ratios = test_corpus(data, line)
+        if max(ratios) > best_ratio:
+            best_statement = line
+            best_ratio = max(ratios)
+        all_lines[line] = ratios
+
+    return [(best_statement, best_ratio)]
+
+def get_classifier_result(action, text):
+    features = get_word_features(ALL_WORDS)
+
+    tolerance = 60
+    all_actions = {}
+    all_actions[action] = load_actions_key(action)
+    results = get_data(text, all_actions[action], tolerance)
+    classified = []
+    for word in results:
+        ranked_results = []
+        for sentence in results[word]:
+            classifier_result = verify_statement(sentence, features)
+            ranked_results.append((sentence, classifier_result))
+
+        top_answer = ranked_results.sort(key = lambda x: x[1])
+        classified.append(ranked_results[-1])
+    return classified
+
 def parse_main_points(text):
 
     tolerance = 60
@@ -200,27 +274,50 @@ def verify_statement(statement, featureset):
     # TODO if result is 1 maybe add to training data
     return result
 
-def get_data(text, keywords, actions, tolerance):
-    all_words = text.split()
+def get_data(text, actions, action):
+    all_sentences = get_tokenized_sentences(text)
+    all_words = []
+    sentence_map = defaultdict(list)
+    for idx in range(len((all_sentences))):
+        sentence = all_sentences[idx]
+        for word in sentence.split():
+            all_words.append(word)
+            sentence_map[word].append(idx)
+
     wnl = WordNetLemmatizer()
     index = 0
     end = len(all_words)
     # action_idx = [] # TODO tolerance calculations
     results = defaultdict(list)
-    while index < end:
+    actions = load_actions_key("delete")
+    used = set()
+    actions = set(actions)
+    for index in range(len(all_words)):
         word = all_words[index]
-        root = wnl.lemmatize(word, "v")
-        back = max(0, index - tolerance)
-        # TODO tolerance value should be calculated based on existing data sets
-        front = min(len(all_words) - 1, index + tolerance)
-        sentence_containing_action = " ".join(all_words[back:front+1])
-        if word in actions:
-            results[word].append(sentence_containing_action)
-        elif root in actions:
-            results[root].append(sentence_containing_action)
-        index += 1
+        if word not in actions:
+            continue
+        if word not in ROOT:
+            ROOT[word] = wnl.lemmatize(word, "v")
+        root = ROOT[word]
+        #
+        # back = max(0, index - tolerance)
+        # # TODO tolerance value should be calculated based on existing data sets
+        # front = min(len(all_words) - 1, index + tolerance)
+        # sentence_containing_action = " ".join(all_words[back:front+1])
+        if word not in used or root not in used:
+            for idx in sentence_map[word]:
+                results[action].append(all_sentences[idx])
+            #results[root].append(sentence_containing_action)
+            used.add(word)
+            #used.add(root)
+    #ranked = rank_results(results)
     return results
 
+
+def rank_results(results):
+    for word in results:
+        ranked = get_top_sentences(results[word], word)
+    return ranked
 def back_an_forth(text, keywords, actions, tolerance, sally):
     score = 0
     index = 0
