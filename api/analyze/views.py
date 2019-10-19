@@ -42,12 +42,14 @@ class AnalyzeUrlView(APIView):
         results = get_fuzzy_result("delete", text=privacy_policy_text)
         # summary = parse_summary(text=privacy_policy_text)
         action_map = {}
-        action_map = {}
         action_map["type"] = "Delete"
         action_map["quote"] = results[0][0]
         action_map["confidence"] = results[0][1]
+        action_map["classification"] = results[0][2]
+        all_actions = [action_map]
 
-        return Response([{"actions" : action_map, "privacy_policy_link" : pp_url}])
+        return Response({"actions" : all_actions, "privacy_policy_link" : pp_url})
+
     """
     Actions are delete store, etc
     results is a list of tuples

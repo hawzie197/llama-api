@@ -230,6 +230,7 @@ def get_fuzzy_result(action, text):
     all_lines = {}
     action = action_map[action]
     max_idx = 0
+
     for index in range(len(result[action])):
         line = result[action][index]
 
@@ -238,8 +239,11 @@ def get_fuzzy_result(action, text):
             best_statement = line
             best_ratio = max(ratios)
         all_lines[line] = ratios
+    features = get_word_features(ALL_WORDS)
+    classifier_result = verify_statement(best_statement, features)
 
-    return [(best_statement, best_ratio)]
+    return [(best_statement, best_ratio, classifier_result)]
+
 
 def get_classifier_result(action, text):
     features = get_word_features(ALL_WORDS)
