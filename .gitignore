@@ -108,3 +108,5 @@ db.sqlite3
 .idea/*
 *.idea*
 .idea
+
+.DS_Store
