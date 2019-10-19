@@ -26,3 +26,7 @@ DELETE,1,"If a Job Seeker wishes to access or delete their Personal Data held by
 DELETE,1,"You may delete your account"
 DELETE, 0, "You may not delete your account"
 DELETE, 1, "You can delete your account"
+DELETE, 0, "Your data is ours"
+DELETE, 0, "Data can't be deleted"
+DELETE, 0, "Data is permanent"
+DELETE, 1, "We delete your data"

@@ -5,14 +5,15 @@ from fuzzywuzzy import fuzz
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim.summarization import summarize
 from collections import defaultdict
-from api.analyze.classifier import open_classifier, get_words, get_word_features, find_features
+from api.analyze.classifier import open_classifier, \
+    get_words, \
+    get_word_features, \
+    find_features
 import os
 
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 classifier = open_classifier()
-
-ALL_WORDS = None #TODO in memory or shared?
 
 def tag_visible(element):
     if element.parent.name in [
@@ -123,13 +124,13 @@ def load_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
-def load_delete_actions():
+def load_actions_key(action):
     """
     Load in all actions from text file.
     :return: set()
     """
     actions = set()
-    with open(os.path.join(BASE, "data/delete.txt")) as fp:
+    with open(os.path.join(BASE, "data/" + action + ".txt")) as fp:
         for line in fp:
             actions.add(line.strip().lower())
             actions.add(line.strip().lower().capitalize())
@@ -169,16 +170,15 @@ def load_other_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
-def get_classifier_result(text):
+def get_classifier_result(action, text):
     all_words = get_words()
     features = get_word_features(all_words)
 
     tolerance = 60
-    actions = load_actions() #TODO
     keywords = load_keywords()
     all_actions = {}
-    all_actions["delete"] = load_delete_actions()
-    results = get_data(text, keywords, all_actions["delete"], tolerance)
+    all_actions[action] = load_actions_key(action)
+    results = get_data(text, keywords, all_actions[action], tolerance)
     classified = []
     for word in results:
         classifier_result = verify_statement(results[word], features)
@@ -186,8 +186,6 @@ def get_classifier_result(text):
     return classified
 
 def parse_main_points(text):
-    all_words = get_words()
-    features = get_word_features(all_words)
 
     tolerance = 60
     actions = load_actions()
@@ -199,7 +197,7 @@ def parse_main_points(text):
 def verify_statement(statement, featureset):
     feature = find_features(statement, featureset)
     result = classifier.classify(feature)
-    #TODO if result is 1 maybe add to training data
+    # TODO if result is 1 maybe add to training data
     return result
 
 def get_data(text, keywords, actions, tolerance):
@@ -207,16 +205,17 @@ def get_data(text, keywords, actions, tolerance):
     wnl = WordNetLemmatizer()
     index = 0
     end = len(all_words)
-    action_idx = []
+    # action_idx = [] # TODO tolerance calculations
     results = defaultdict(list)
     while index < end:
         word = all_words[index]
-        root = WordNetLemmatizer.lemmatize(word, "v")
-        back = max(0, index - tolerance)  # TODO tolerance value should be calculated based on existing data sets
+        root = wnl.lemmatize(word, "v")
+        back = max(0, index - tolerance)
+        # TODO tolerance value should be calculated based on existing data sets
         front = min(len(all_words) - 1, index + tolerance)
         sentence_containing_action = " ".join(all_words[back:front+1])
         if word in actions:
-           results[word].append(sentence_containing_action)
+            results[word].append(sentence_containing_action)
         elif root in actions:
             results[root].append(sentence_containing_action)
         index += 1

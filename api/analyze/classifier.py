@@ -4,21 +4,20 @@ import csv
 import os
 import pickle
 BASE = os.path.dirname(os.path.abspath(__file__))
-#ALL_WORDS = get_words()
+
 def construct_corpus_from_csv(csv_data):
     corpus = []
     with open(csv_data) as data:
         reader = csv.reader(data)
         for row in reader:
-            action = row[0]
+            """TODO action row[0] fix it"""
             status = row[1]
             sentence = row[2]
             words = []
             for word in sentence.split():
                 words.append(word)
             corpus.append((words, status))
-    #random.shuffle(corpus)
-    #print(corpus[0])
+    random.shuffle(corpus)
     return corpus
 
 def find_features(document, word_features):
@@ -61,15 +60,14 @@ def main():
     corpus = construct_corpus_from_csv(os.path.join(BASE, "data/delete-data.csv"))
     all_words = get_all_words(corpus)
     word_features = list(all_words.keys())
-    feature_set = [(find_features(datum,word_features), status) for datum, status in corpus]
-    train_and_save_classier(feature_set)
-
-
-
-    # result = classifier.classify(find_features(list("We won't do anything".split()), word_features))
-    # print((result))
-    #print("Classifier accuracy percent:", (nltk.classify.accuracy(classifier, test_set)) * 100)
-    #print(classifier.show_most_informative_features(15))
+    feature_set = [(find_features(datum, word_features), status)
+                   for datum, status in corpus]
+    half = len(feature_set)//2
+    train_and_save_classier(feature_set[:half])
+    classifier = open_classifier()
+    test_set = feature_set[half:]
+    print("Classifier accuracy percent:", (nltk.classify.accuracy(classifier,
+                                                                  test_set)) * 100)
 
 
 if __name__ == "__main__":
