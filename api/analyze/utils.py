@@ -5,14 +5,16 @@ from fuzzywuzzy import fuzz
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim.summarization import summarize
 from collections import defaultdict
-from api.analyze.classifier import open_classifier, \
-    get_words, \
-    get_word_features, \
-    find_features, \
-    lemmatize_all_words, \
-    get_tokenized_sentences, \
-    get_top_sentences, \
-    find_features
+from api.analyze.classifier import (
+    open_classifier,
+    get_words,
+    get_word_features,
+    find_features,
+    lemmatize_all_words,
+    get_tokenized_sentences,
+    get_top_sentences,
+    find_features,
+)
 
 import os
 import csv
@@ -36,15 +38,17 @@ def load_fuzzy_corpus():
             fuzzy_data.append(data)
     return fuzzy_data
 
+
 def test_corpus(corpus, check):
     sum_ = 0
     best = ""
     max_ratio = -1
     ratios = []
     for line in corpus:
-        ratio = fuzz.ratio(check, line)#normalize(line)
+        ratio = fuzz.ratio(check, line)  # normalize(line)
         ratios.append(ratio)
     return ratios
+
 
 def tag_visible(element):
     if element.parent.name in [
@@ -155,6 +159,7 @@ def load_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+
 def load_actions_key(action):
     """
     Load in all actions from text file.
@@ -166,6 +171,7 @@ def load_actions_key(action):
             actions.add(line.strip().lower())
             actions.add(line.strip().lower().capitalize())
     return actions
+
 
 def load_actions():
     """
@@ -201,6 +207,7 @@ def load_other_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+
 def get_classifier_result(action, text):
     all_words = get_words()
     features = get_word_features(all_words)
@@ -215,6 +222,7 @@ def get_classifier_result(action, text):
         classifier_result = verify_statement(results[word], features)
         classified.append((" ".join(results[word]), classifier_result))
     return classified
+
 
 def get_fuzzy_result(action, text):
     all_actions = {}
@@ -259,9 +267,10 @@ def get_classifier_result(action, text):
             classifier_result = verify_statement(sentence, features)
             ranked_results.append((sentence, classifier_result))
 
-        top_answer = ranked_results.sort(key = lambda x: x[1])
+        top_answer = ranked_results.sort(key=lambda x: x[1])
         classified.append(ranked_results[-1])
     return classified
+
 
 def parse_main_points(text):
 
@@ -272,11 +281,13 @@ def parse_main_points(text):
     results = back_an_forth(text, keywords, actions, tolerance, {})
     return format_results(results)
 
+
 def verify_statement(statement, featureset):
     feature = find_features(statement, featureset)
     result = classifier.classify(feature)
     # TODO if result is 1 maybe add to training data
     return result
+
 
 def get_data(text, actions, action):
     all_sentences = get_tokenized_sentences(text)
@@ -311,10 +322,10 @@ def get_data(text, actions, action):
         if word not in used or root not in used:
             for idx in sentence_map[word]:
                 results[action].append(all_sentences[idx])
-            #results[root].append(sentence_containing_action)
+            # results[root].append(sentence_containing_action)
             used.add(word)
-            #used.add(root)
-    #ranked = rank_results(results)
+            # used.add(root)
+    # ranked = rank_results(results)
     return results
 
 
@@ -322,6 +333,8 @@ def rank_results(results):
     for word in results:
         ranked = get_top_sentences(results[word], word)
     return ranked
+
+
 def back_an_forth(text, keywords, actions, tolerance, sally):
     score = 0
     index = 0
