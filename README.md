@@ -9,8 +9,7 @@
 [![flake8](https://img.shields.io/badge/linter-flake8-lightgrey)](https://img.shields.io/badge/linter-flake8-lightgrey)
 
 ## Overview
-pyllama automatically summarizes main points in the privacy policies whenever a user visits a signup page of a website. On page load, the pyllama searches for its privacy policy. If found, the extension parses the privacy policy using Natural Language Processing, and then displays 'what the website collects', 'why it collects that information', and whether or not the site adhears to gdpr allowing its user to delete personal data points off the company's servers for good.
-If no policy is found, or a low confidence interval is returned, a warning is displayed to the user.
+llama automatically summarizes main points in the privacy policies whenever a user visits a signup page of a website. On page load, the pyllama searches for its privacy policy. If found, the extension parses the privacy policy using Natural Language Processing, and then displays the main actions from the policy like: disclosing, selling, storing, deleting, and accessing of data. We also add a tier of colors and a confidence score on how well we think your privacy is protected. If no policy is found, or a low confidence interval is returned and a warning is displayed.
 
 
 ### Quick Setup
