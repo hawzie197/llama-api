@@ -1,8 +1,8 @@
 # pyllama
 [![Build Status](https://travis-ci.org/hawzie197/llama-api.svg?branch=master)](https://travis-ci.org/hawzie197/llama-api)
-[![codecov](https://codecov.io/gh/hawzie197/pyllama/branch/master/graph/badge.svg)](https://codecov.io/gh/hawzie197/pyllama)
-<a href="https://codeclimate.com/github/hawzie197/pyllama/maintainability"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
-[![Known Vulnerabilities](https://snyk.io/test/github/hawzie197/pyllama/badge.svg)](https://snyk.io/test/github/hawzie197/pyllama/)
+[![codecov](https://codecov.io/gh/hawzie197/llama-api/branch/master/graph/badge.svg)](https://codecov.io/gh/hawzie197/llama-api)
+<a href="https://codeclimate.com/github/hawzie197/llama-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
+[![Known Vulnerabilities](https://snyk.io/test/github/hawzie197/llama-api/badge.svg)](https://snyk.io/test/github/hawzie197/llama-api/)
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![Django 2.0](https://img.shields.io/badge/Django-2.0-blue.svg)](https://docs.djangoproject.com/en/2.1/releases/2.0/)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
