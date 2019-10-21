@@ -1,5 +1,5 @@
 # pyllama
-[![Build Status](https://travis-ci.com/hawzie197/pyllama.svg?branch=master)](https://travis-ci.com/hawzie197/pyllama)
+[![Build Status](https://travis-ci.org/hawzie197/llama-api.svg?branch=master)](https://travis-ci.org/hawzie197/llama-api)
 [![codecov](https://codecov.io/gh/hawzie197/pyllama/branch/master/graph/badge.svg)](https://codecov.io/gh/hawzie197/pyllama)
 <a href="https://codeclimate.com/github/hawzie197/pyllama/maintainability"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
 [![Known Vulnerabilities](https://snyk.io/test/github/hawzie197/pyllama/badge.svg)](https://snyk.io/test/github/hawzie197/pyllama/)
