@@ -15,7 +15,7 @@ from api.analyze.classifier import (
     get_top_sentences,
     find_features,
 )
-
+from urllib.parse import urlsplit
 import os
 import csv
 from fuzzywuzzy import fuzz
@@ -133,6 +133,34 @@ def find_privacy_link(links):
     return link
 
 
+def normalize_link(link, split_url):
+    """
+    Break the base_uri and piracy policy path apart and rebuild
+    the link to ensure it contains all the necessary http elements.
+    
+    :param link:  html link tag w/ href
+    :param split_url: split url  (urlib.parse)
+    :return: string
+    """
+    url = link.get("href", None)
+    if not url:
+        return None
+    protocol = split_url.scheme + "://"
+    netloc = split_url.netloc
+    final_url = ""
+    if not protocol in url:  # Protocol doesn't exists, lets make sure that gets added.
+        final_url += protocol
+    if not netloc in url:
+        final_url += netloc + "/"
+
+    if url.startswith("/"):
+        final_url += url[1:]
+    else:
+        final_url += url
+
+    return final_url
+
+
 def get_privacy_policy_url(url):
     """
     Find the privacy policy url for the page. If no
@@ -140,12 +168,13 @@ def get_privacy_policy_url(url):
     :param url: str
     :return: str or None
     """
+    split_url = urlsplit(url)
     html = get_site_html(url=url)  # Find page html
     links = get_site_tags(html=html, tags=["a"])  # Get all links on page
     privacy_policy_link = find_privacy_link(
         links=links
     )  # Find privacy link, if None, research on homepage
-    return privacy_policy_link.get("href", None)
+    return normalize_link(privacy_policy_link, split_url)
 
 
 def load_keywords():
