@@ -9,7 +9,7 @@
 [![flake8](https://img.shields.io/badge/linter-flake8-lightgrey)](https://img.shields.io/badge/linter-flake8-lightgrey)
 
 ## Overview
-llama automatically summarizes main points in the privacy policies whenever a user visits a signup page of a website. On page load, the pyllama searches for its privacy policy. If found, the extension parses the privacy policy using Natural Language Processing, and then displays the main actions from the policy like: disclosing, selling, storing, deleting, and accessing of data. We also add a tier of colors and a confidence score on how well we think your privacy is protected. If no policy is found, or a low confidence interval is returned and a warning is displayed.
+llama automatically compiles the main points of a privacy policy using Natural Language Processing whenever a user is on a signup page. On page load, the llama searches for its privacy policy. If found, the extension parses the privacy policy and then displays the main actions from the policy like: disclosing, selling, storing, deleting, and accessing of data. We also add a tier of colors and a confidence score on how well we think your privacy is protected. If no policy is found, a warning is displayed
 
 
 ### Quick Setup
