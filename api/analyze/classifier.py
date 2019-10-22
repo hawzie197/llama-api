@@ -5,9 +5,10 @@ import random
 import csv
 import os
 import pickle
+
 BASE = os.path.dirname(os.path.abspath(__file__))
 nltk.data.path.append(os.path.join(BASE, "data/nltk_corpora"))
-TOKENIZER = load('tokenizers/punkt/english.pickle')
+TOKENIZER = load("tokenizers/punkt/english.pickle")
 # flake8: noqa
 def strip_non_an_characters(word):
     reconstructed = ""
@@ -16,6 +17,7 @@ def strip_non_an_characters(word):
             reconstructed += letter
     return reconstructed
 
+
 def sort_by_action(element, action):
     item = element[1]
     if action not in item:
@@ -23,11 +25,13 @@ def sort_by_action(element, action):
     else:
         return item[action]
 
+
 def get_top_sentences(sentences, action):
     pass
     # counts = [(sentence, get_key_word_count(sentence)) for sentence in sentences]
     # return sorted(counts, key = lambda x: 0 if action not in x else x[action],
     # reverse = True )
+
 
 def get_key_word_count(sentence):
     count = {}
@@ -54,12 +58,14 @@ def construct_corpus_from_csv(csv_data):
     random.shuffle(corpus)
     return corpus
 
+
 def find_features(document, word_features):
     words = set(document)
     features = {}
     for w in word_features:
-        features[w] = (w in words)
+        features[w] = w in words
     return features
+
 
 def get_all_words(corpus):
     words = []
@@ -69,6 +75,7 @@ def get_all_words(corpus):
 
     all_words = nltk.FreqDist(words)
     return all_words
+
 
 def train_and_save_classier(feature_set):
     classifier = nltk.NaiveBayesClassifier.train(feature_set)
@@ -83,13 +90,16 @@ def open_classifier():
     classifier_file.close()
     return classifier
 
+
 def get_words():
     corpus = construct_corpus_from_csv(os.path.join(BASE, "data/delete-data.csv"))
     all_words = get_all_words(corpus)
     return all_words
 
+
 def get_word_features(all_words):
     return list(all_words.keys())
+
 
 def lemmatize_all_words(all_words):
     root = {}
@@ -99,11 +109,14 @@ def lemmatize_all_words(all_words):
             root[word] = lemmatizer.lemmatize(word, "v")
     return root
 
+
 def get_word_to_sentence_mapping(text, words):
     pass
 
+
 def get_tokenized_sentences(text):
     return TOKENIZER.tokenize(text)
+
 
 def main():
     corpus = construct_corpus_from_csv(os.path.join(BASE, "data/delete-data.csv"))
@@ -111,18 +124,26 @@ def main():
     # lemmatize training data
     lemmatize_all_words(all_words)
     word_features = list(all_words.keys())
-    feature_set = [(find_features(datum, word_features), status)
-                   for datum, status in corpus]
+    feature_set = [
+        (find_features(datum, word_features), status) for datum, status in corpus
+    ]
     train_and_save_classier(feature_set)
     classifier = open_classifier()
     # print("Classifier accuracy percent:", (nltk.classify.accuracy(classifier,
     #                                                             test_set)) * 100)
-    print(classifier.prob_classify(find_features("'When you delete your account, "
-                                                 "we delete things you have posted, "
-                                                 "such as your photos and status updates, "
-                                                 "and you won\'t be able to recover that information later.'",
-                                                 word_features)).samples())
-    #print(get_tokenized_sentences(TEXT))
+    print(
+        classifier.prob_classify(
+            find_features(
+                "'When you delete your account, "
+                "we delete things you have posted, "
+                "such as your photos and status updates, "
+                "and you won't be able to recover that information later.'",
+                word_features,
+            )
+        ).samples()
+    )
+    # print(get_tokenized_sentences(TEXT))
+
 
 TEXT = """
 Introduction
@@ -151,18 +172,22 @@ Some of our Services allow you to upload, submit, store, send or receive content
 
 When you upload, submit, store, send or receive content to or through our Services, you give Immuto (and those we work with) a worldwide license to use, host, store, reproduce, modify, create derivative works (such as those resulting from translations, adaptations or other changes we make so that your content works better with our Services), communicate, publish, publicly perform, publicly display and distribute such content. The rights you grant in this license are for the limited purpose of operating, promoting, and improving our Services, and to develop new ones. This license continues even if you stop using our Services (for example, for a business listing you have added to Immuto Maps). Some Services may offer you ways to access and remove content that has been provided to that Service. Also, in some of our Services, there are terms or settings that narrow the scope of our use of the content submitted in those Services. Make sure you have the necessary rights to grant us this license for any content that you submit to our Services."""
 
+
 def main():
     corpus = construct_corpus_from_csv(os.path.join(BASE, "data/delete-data.csv"))
     all_words = get_all_words(corpus)
     word_features = list(all_words.keys())
-    feature_set = [(find_features(datum, word_features), status)
-                   for datum, status in corpus]
-    half = len(feature_set)//2
+    feature_set = [
+        (find_features(datum, word_features), status) for datum, status in corpus
+    ]
+    half = len(feature_set) // 2
     train_and_save_classier(feature_set[:half])
     classifier = open_classifier()
     test_set = feature_set[half:]
-    print("Classifier accuracy percent:", (nltk.classify.accuracy(classifier,
-                                                                  test_set)) * 100)
+    print(
+        "Classifier accuracy percent:",
+        (nltk.classify.accuracy(classifier, test_set)) * 100,
+    )
 
 
 if __name__ == "__main__":

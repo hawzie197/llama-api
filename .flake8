@@ -3,5 +3,5 @@
 [flake8]
 ignore = E226, E302, E41, C901, E203
 max-line-length = 88
-exclude = staticfiles/*
+exclude = static/*
 max-complexity = 10

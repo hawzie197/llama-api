@@ -5,15 +5,17 @@ from fuzzywuzzy import fuzz
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim.summarization import summarize
 from collections import defaultdict
-from api.analyze.classifier import open_classifier, \
-    get_words, \
-    get_word_features, \
-    find_features, \
-    lemmatize_all_words, \
-    get_tokenized_sentences, \
-    get_top_sentences, \
-    find_features
-
+from api.analyze.classifier import (
+    open_classifier,
+    get_words,
+    get_word_features,
+    find_features,
+    lemmatize_all_words,
+    get_tokenized_sentences,
+    get_top_sentences,
+    find_features,
+)
+from urllib.parse import urlsplit
 import os
 import csv
 from fuzzywuzzy import fuzz
@@ -36,15 +38,17 @@ def load_fuzzy_corpus():
             fuzzy_data.append(data)
     return fuzzy_data
 
+
 def test_corpus(corpus, check):
     sum_ = 0
     best = ""
     max_ratio = -1
     ratios = []
     for line in corpus:
-        ratio = fuzz.ratio(check, line)#normalize(line)
+        ratio = fuzz.ratio(check, line)  # normalize(line)
         ratios.append(ratio)
     return ratios
+
 
 def tag_visible(element):
     if element.parent.name in [
@@ -129,6 +133,34 @@ def find_privacy_link(links):
     return link
 
 
+def normalize_link(link, split_url):
+    """
+    Break the base_uri and piracy policy path apart and rebuild
+    the link to ensure it contains all the necessary http elements.
+    
+    :param link:  html link tag w/ href
+    :param split_url: split url  (urlib.parse)
+    :return: string
+    """
+    url = link.get("href", None)
+    if not url:
+        return None
+    protocol = split_url.scheme + "://"
+    netloc = split_url.netloc
+    final_url = ""
+    if not protocol in url:  # Protocol doesn't exists, lets make sure that gets added.
+        final_url += protocol
+    if not netloc in url:
+        final_url += netloc + "/"
+
+    if url.startswith("/"):
+        final_url += url[1:]
+    else:
+        final_url += url
+
+    return final_url
+
+
 def get_privacy_policy_url(url):
     """
     Find the privacy policy url for the page. If no
@@ -136,12 +168,13 @@ def get_privacy_policy_url(url):
     :param url: str
     :return: str or None
     """
+    split_url = urlsplit(url)
     html = get_site_html(url=url)  # Find page html
     links = get_site_tags(html=html, tags=["a"])  # Get all links on page
     privacy_policy_link = find_privacy_link(
         links=links
     )  # Find privacy link, if None, research on homepage
-    return privacy_policy_link.get("href", None)
+    return normalize_link(privacy_policy_link, split_url)
 
 
 def load_keywords():
@@ -155,6 +188,7 @@ def load_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+
 def load_actions_key(action):
     """
     Load in all actions from text file.
@@ -166,6 +200,7 @@ def load_actions_key(action):
             actions.add(line.strip().lower())
             actions.add(line.strip().lower().capitalize())
     return actions
+
 
 def load_actions():
     """
@@ -201,6 +236,7 @@ def load_other_keywords():
             keywords.add(line.strip().lower())
     return keywords
 
+
 def get_classifier_result(action, text):
     all_words = get_words()
     features = get_word_features(all_words)
@@ -215,6 +251,7 @@ def get_classifier_result(action, text):
         classifier_result = verify_statement(results[word], features)
         classified.append((" ".join(results[word]), classifier_result))
     return classified
+
 
 def get_fuzzy_result(action, text):
     all_actions = {}
@@ -259,9 +296,10 @@ def get_classifier_result(action, text):
             classifier_result = verify_statement(sentence, features)
             ranked_results.append((sentence, classifier_result))
 
-        top_answer = ranked_results.sort(key = lambda x: x[1])
+        top_answer = ranked_results.sort(key=lambda x: x[1])
         classified.append(ranked_results[-1])
     return classified
+
 
 def parse_main_points(text):
 
@@ -272,11 +310,13 @@ def parse_main_points(text):
     results = back_an_forth(text, keywords, actions, tolerance, {})
     return format_results(results)
 
+
 def verify_statement(statement, featureset):
     feature = find_features(statement, featureset)
     result = classifier.classify(feature)
     # TODO if result is 1 maybe add to training data
     return result
+
 
 def get_data(text, actions, action):
     all_sentences = get_tokenized_sentences(text)
@@ -311,10 +351,10 @@ def get_data(text, actions, action):
         if word not in used or root not in used:
             for idx in sentence_map[word]:
                 results[action].append(all_sentences[idx])
-            #results[root].append(sentence_containing_action)
+            # results[root].append(sentence_containing_action)
             used.add(word)
-            #used.add(root)
-    #ranked = rank_results(results)
+            # used.add(root)
+    # ranked = rank_results(results)
     return results
 
 
@@ -322,6 +362,8 @@ def rank_results(results):
     for word in results:
         ranked = get_top_sentences(results[word], word)
     return ranked
+
+
 def back_an_forth(text, keywords, actions, tolerance, sally):
     score = 0
     index = 0

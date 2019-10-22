@@ -1,16 +1,15 @@
 # pyllama
-[![Build Status](https://travis-ci.com/hawzie197/pyllama.svg?branch=master)](https://travis-ci.com/hawzie197/pyllama)
-[![codecov](https://codecov.io/gh/hawzie197/pyllama/branch/master/graph/badge.svg)](https://codecov.io/gh/hawzie197/pyllama)
-<a href="https://codeclimate.com/github/hawzie197/pyllama/maintainability"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
-[![Known Vulnerabilities](https://snyk.io/test/github/hawzie197/pyllama/badge.svg)](https://snyk.io/test/github/hawzie197/pyllama/)
+[![Build Status](https://travis-ci.org/hawzie197/llama-api.svg?branch=master)](https://travis-ci.org/hawzie197/llama-api)
+[![codecov](https://codecov.io/gh/hawzie197/llama-api/branch/master/graph/badge.svg)](https://codecov.io/gh/hawzie197/llama-api)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d05a1c8f7fee0c3e0b04/maintainability)](https://codeclimate.com/github/hawzie197/llama-api/maintainability)
+[![Known Vulnerabilities](https://dev.snyk.io/test/github/hawzie197/llama-api/badge.svg)](https://dev.snyk.io/test/github/hawzie197/llama-api)
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![Django 2.0](https://img.shields.io/badge/Django-2.0-blue.svg)](https://docs.djangoproject.com/en/2.1/releases/2.0/)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 [![flake8](https://img.shields.io/badge/linter-flake8-lightgrey)](https://img.shields.io/badge/linter-flake8-lightgrey)
 
 ## Overview
-pyllama automatically summarizes main points in the privacy policies whenever a user visits a signup page of a website. On page load, the pyllama searches for its privacy policy. If found, the extension parses the privacy policy using Natural Language Processing, and then displays 'what the website collects', 'why it collects that information', and whether or not the site adhears to gdpr allowing its user to delete personal data points off the company's servers for good.
-If no policy is found, or a low confidence interval is returned, a warning is displayed to the user.
+llama automatically compiles the main points of a privacy policy using Natural Language Processing whenever a user is on a signup page. On page load, the llama searches for its privacy policy. If found, the extension parses the privacy policy and then displays the main actions from the policy like: disclosing, selling, storing, deleting, and accessing of data. We also add a tier of colors and a confidence score on how well we think your privacy is protected. If no policy is found, a warning is displayed
 
 
 ### Quick Setup

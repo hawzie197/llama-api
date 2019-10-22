@@ -1,0 +1,228 @@
+body {
+  font-family: 'Lato';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Catamaran';
+  font-weight: 800 !important;
+}
+
+
+
+.bg-black {
+  background-color: #000 !important;
+}
+
+.rounded-pill {
+  border-radius: 5rem;
+}
+
+.navbar-custom {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.navbar-custom .navbar-brand {
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  font-weight: 700;
+}
+
+.navbar-custom .navbar-nav .nav-item .nav-link {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+}
+
+header.masthead {
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(7rem + 72px);
+  padding-bottom: 7rem;
+  background: linear-gradient(0deg, #ff6a00 0%, #ee0979 100%);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: scroll;
+  //background-size: cover;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+header.masthead .masthead-content {
+  z-index: 1;
+  position: relative;
+}
+
+header.masthead .masthead-content .masthead-heading {
+  font-size: 4rem;
+}
+
+header.masthead .masthead-content .masthead-subheading {
+  font-size: 2rem;
+}
+
+header.masthead .bg-circle {
+  z-index: 0;
+  position: absolute;
+  border-radius: 100%;
+  background: linear-gradient(0deg, #ee0979 0%, #ff6a00 100%);
+}
+
+header.masthead .bg-circle-1 {
+  height: 90rem;
+  width: 90rem;
+  bottom: -55rem;
+  left: -55rem;
+}
+
+header.masthead .bg-circle-2 {
+  height: 50rem;
+  width: 50rem;
+  top: -25rem;
+  right: -25rem;
+}
+
+header.masthead .bg-circle-3 {
+  height: 20rem;
+  width: 20rem;
+  bottom: -10rem;
+  right: 5%;
+}
+
+header.masthead .bg-circle-4 {
+  height: 30rem;
+  width: 30rem;
+  top: -5rem;
+  right: 35%;
+}
+
+.btn-pill-pink {
+  color: white;
+  font-weight: 500;
+  padding: 16px 21px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 30px;
+  background-color: #ee0979;
+  border-color: #ee0979;
+}
+
+.btn-pill-pink:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.color-pink {
+  color: #ee0979;
+}
+
+.img-1 {
+  height: 300px;
+  width: 300px;
+}
+
+.img-02 {
+  height: 320px;
+  width: 450px;
+}
+
+.img-03 {
+  height: 320px;
+  width: 450px;
+}
+
+.display-p {
+  font-size: 15px;
+}
+
+section {
+  height: 550px;
+}
+
+.p-wrapper {
+  padding: 48px;
+}
+
+
+// Mobile configs
+
+
+@media (max-width: 400px) {
+
+  section {
+    height: auto;
+  }
+
+  .p-wrapper {
+    padding: 30px;
+    width: 100%;
+  }
+
+  .img-01 {
+    height: 250px;
+    width: 250px;
+  }
+
+  .img-02 {
+    height: 200px;
+    width: 250px;
+  }
+
+  .img-03 {
+    height: 200px;
+    width: 250px;
+  }
+
+  h2.display-4 {
+    font-size: 30px;
+  }
+
+  .display-6 {
+    font-size: 22px;
+  }
+
+  .display-p {
+    font-size: 13px;
+  }
+
+  .llama-landing {
+    max-height: 200px;
+    max-width: 220px;
+    padding: 0;
+    margin: 0;
+  }
+
+  header.masthead {
+    padding-top: calc(5rem);
+
+  }
+
+}
+
+@media (min-width: 1200px) {
+
+  header.masthead {
+    background-size: cover;
+  }
+
+  .img-01 {
+    height: 300px;
+    width: 300px;
+  }
+
+}
