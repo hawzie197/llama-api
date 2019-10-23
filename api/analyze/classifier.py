@@ -9,6 +9,7 @@ import pickle
 BASE = os.path.dirname(os.path.abspath(__file__))
 nltk.data.path.append(os.path.join(BASE, "data/nltk_corpora"))
 TOKENIZER = load("tokenizers/punkt/english.pickle")
+TOKENIZER.sent_end_chars = ('.', '?', '!', ';')
 # flake8: noqa
 def strip_non_an_characters(word):
     reconstructed = ""
@@ -115,7 +116,8 @@ def get_word_to_sentence_mapping(text, words):
 
 
 def get_tokenized_sentences(text):
-    return TOKENIZER.tokenize(text)
+
+    return [sentence for word in  TOKENIZER.tokenize(text) for sentence in word.split(';')  ]
 
 
 def main():
