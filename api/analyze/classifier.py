@@ -92,7 +92,7 @@ def open_classifier():
 
 
 def get_words():
-    corpus = construct_corpus_from_csv(os.path.join(BASE, "data/delete-data.csv"))
+    corpus = construct_corpus_from_csv(os.path.join(BASE, "data/corpus.csv"))
     all_words = get_all_words(corpus)
     return all_words
 
