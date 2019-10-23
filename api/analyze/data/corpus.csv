@@ -14,15 +14,60 @@ DELETE,1,"If you have an account and would like to delete it, you may do so by a
 DELETE,1,"If you delete your account, all data associated with your account (except for backup copies), including the Sounds that you have uploaded and the usage data associated with those Sounds, will be deleted and may not be recoverable."
 DELETE,1,"ou have the right to ask us to delete all or some of the personal data we hold about you. If you have an account, you can also delete your account through the Settings at any time as described below."
 DELETE,1,"You may update, correct or delete information about you at any time by logging in to your account"
+DELETE,0,"We will utilize, disclose or retain your Personal Information for as long as necessary"
 DELETE,1,"will allow you to view, correct or remove your Personal Information upon written request and in accordance with applicable law;"
-DELETE,1,"will allow you to view, correct or remove your Personal Information upon written request and in accordance with applicable law;"
+DELETE,0,
+DELETE,0,"We retain your personal information to provide services to you and as otherwise necessary to comply with our legal obligations, resolve disputes, and enforce our agreements. "
 DELETE,1,"Right to erasure (right to be forgotten). Under certain circumstances, you may have the right to require us to delete your personal data."
 DELETE,1,You may delete your account
 DELETE,1,The shared information will remain associated with your Indeed profile until you modify or delete it.
 DELETE,1,until you ask us to delete your personal data
 DELETE,1,"If a Job Seeker wishes to access or delete their Personal Data held by Indeed, they should follow the steps listed in section 10 of this Privacy Policy, and such a request will be processed in accordance with applicable rules."
-DELETE,1,"You may delete your account"
-DELETE, 1, "You can delete your account"
-DELETE, 1, "We delete your data"
-DELETE, 1, "You can delete your account"
-DELETE, 1, "We delete your data"
+DELETE,0,We will retain your information for as long as needed to comply with legal obligations
+DELETE,0,We will not delete your data 
+DELETE,0,Deletion of data is not permitted once you have successfully created an account.
+DELETE,0,You are not allowed to update or delete your information
+ACCESS,1,"We may request that you provide sufficient identification to permit access to the existence, use or disclosure of your Personal Information."
+DISCLOSE,0,"We will utilize, disclose or retain your Personal Information for as long as necessary to fulfill the purposes for which that Personal Information was collected and as permitted or required by law."
+STORE,0,"any travellers to/from the U.S. may have their data captured by the U.S. Homeland Security Agency, which can store it for up to 50 years, and may share such information with other U.S. Government Agencies."
+DISCLOSE,0,"any travellers to/from the U.S. may have their data captured by the U.S. Homeland Security Agency, which can store it for up to 50 years, and may share such information with other U.S. Government Agencies."
+STORE,0,"We will utilize, disclose or retain your Personal Information for as long as necessary to fulfill the purposes for which that Personal Information was collected and as permitted or required by law."
+SELL,1,We do not and will never sell your personal information to third parties
+SELL,1,We do not sell your information to other companies
+SELL,1,Your information will never be sold to anyone outside our company
+DELETE,1,"If you would like to request to review, correct, restrict or delete personal information that you have previously provided to us, please complete this form."
+DELETE,1,"Whether there is a legal obligation to which we are subject (for example, certain laws require us to keep records of your transactions for a certain period of time before we can delete them);"
+SELL,1,"We will not sell, rent, swap or authorize any third party (except our service providers) to use your email address without your permission."
+DISCLOSE,1,"We will not sell, rent, swap or authorize any third party (except our service providers) to use your email address without your permission."
+DISCLOSE,0,"We may access, preserve and disclose personal information if we are required to do so by law or we have a good faith belief that such action is necessary"
+ACCESS,1,"If you would like to request to review, correct, restrict or delete personal information that you have previously provided to us, object to the processing of personal information, or if you would like to request to receive an electronic copy of your personal information"
+STORE,0,"We store data until it is no longer necessary to provide our services and Facebook Products, or until your account is deleted - whichever comes first"
+DELETE,1,"We store data until it is no longer necessary to provide our services and Facebook Products, or until your account is deleted - whichever comes first"
+DELETE,1,"When you delete your account, we delete things you have posted, such as your photos and status updates, and you won't be able to recover that information later. Information that others have shared about you isn't part of your account and won't be deleted. "
+SELL,1,"We don't sell any of your information to anyone, and we never will."
+ACCESS,1,"We provide you with the ability to access, rectify, port and erase your data."
+DELETE,1,"We provide you with the ability to access, rectify, port and erase your data."
+DISCLOSE,1,We also impose strict restrictions on how our partners can use and disclose the data we provide.
+DELETE,0,"Most personal information and user generated content cannot be deleted as they are used to support contracts between users, document financial transactions, and are used in providing protecting other legitimate users of the marketplace."
+DELETE,1,You have the right to delete certain information which we are holding about you
+DISCLOSE,0,we may share the information we collect from Subscribers
+STORE,0,"We will retain your information for the period necessary to fulfill the purposes outlined in this Policy unless a longer retention period is required or permitted by law, or where the Customer Agreement requires or permits specific retention or deletion periods."
+DISCLOSE,0,We may also disclose your information to third parties with your consent to do so
+SELL,1,We do not sell or give your Contact Information to companies for their own marketing purposes without your permission.
+DISCLOSE,0,"We will retain and use this information for the purposes for which it was collected (as specified in this policy or as Pandora discloses to its listeners outside of this policy), including, to provide the Service to you, comply with our legal obligations, resolve disputes, and enforce our agreements."
+DISCLOSE,0,"Pandora may share information we gather from devices you use to access the Service with its third-party vendors or service providers, manufacturing or distribution partners, or advertising partners."
+ACCESS,1,"We provide you with the ability to access and modify your Registration Data, which you may do through the Settings section of our Service or by contacting User Support."
+DELETE,1,You can also request to remove content from specific Google services based on applicable law.
+ACCESS,1,You can export a copy of your information or delete it from your Google Account at any time
+STORE,0,"We retain the data we collect for different periods of time depending on what it is, how we use it, and how you configure your settings:"
+DISCLOSE,0,"We will share personal information outside of Google if we have a good-faith belief that access, use, preservation, or disclosure of the information is reasonably necessary"
+STORE,1,"We keep your personal data only as long as necessary to provide you with the Spotify Service and for legitimate and essential business purposes, such as maintaining the performance of the Spotify Service, making data-driven business decisions about new features and offerings, complying with our legal obligations, and resolving disputes."
+STORE,1,We keep some of your personal data for as long as you are a user of the service
+DELETE,1,Right to Erasure - the right to request that we delete your personal data;
+ACCESS,1,Right of Access - the right to be informed of and request access to the personal data we process about you;
+DELETE,1,"You can remove your Personal Data from Grammarly at any time by logging into your account, accessing the Settings page, and then deleting your account."
+STORE,0,"we may keep some of your Personal Data for as long as reasonably necessary for our legitimate business interests, including fraud detection and prevention and to comply with our legal obligations including tax, legal reporting, and auditing obligations."
+SELL,1,"No, Grammarly does not sell or rent your Personal Data."
+DISCLOSE,1,please note that Grammarly may request additional information from you to verify your identity before we disclose any information.
+SELL,1,We neither rent nor sell your Personal Information in personally identifiable form to anyone.
+DISCLOSE,0,we do share your Personal Information with third parties as described in Section II above and in this Section

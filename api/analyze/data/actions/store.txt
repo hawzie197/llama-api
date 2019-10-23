@@ -1,0 +1,5 @@
+store
+stock
+collect
+cache
+accumulate

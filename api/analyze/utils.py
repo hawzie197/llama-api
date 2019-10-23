@@ -279,8 +279,7 @@ def get_data(text, actions, action):
     all_sentences = get_tokenized_sentences(text)
     all_words = []
     sentence_map = defaultdict(list)
-    for idx in range(len((all_sentences))):
-        sentence = all_sentences[idx]
+    for idx, sentence in enumerate(all_sentences):
         for word in sentence.split():
             all_words.append(word)
             sentence_map[word].append(idx)
@@ -290,7 +289,7 @@ def get_data(text, actions, action):
     end = len(all_words)
     # action_idx = [] # TODO tolerance calculations
     results = defaultdict(list)
-    actions = load_actions_key("delete")
+    actions = load_actions_key(action)
     used = set()
     actions = set(actions)
     for index in range(len(all_words)):

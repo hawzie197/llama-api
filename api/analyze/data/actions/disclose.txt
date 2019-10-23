@@ -1,0 +1,5 @@
+disclose
+transfer
+reveal
+leak
+unveil

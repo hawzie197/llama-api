@@ -24,7 +24,7 @@ class AnalyzeUrlView(APIView):
         html = get_site_html(pp_url)
         privacy_policy_text = text_from_html(body=html)
 
-        actions = ("delete",)
+        actions = ("access", "store", "sell", "disclose", "delete")
         all_actions = []
         for action in actions:
             result = get_fuzzy_result(action, text=privacy_policy_text)
