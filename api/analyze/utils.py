@@ -78,7 +78,7 @@ def text_from_html(body):
     return " ".join(t.strip() for t in visible_texts)
 
 
-def get_site_html(url: str):
+def download_html(url: str):
     """
     Parses a url and downloads all html from the page.
 
@@ -161,7 +161,7 @@ def normalize_link(link, split_url):
     return final_url
 
 
-def get_privacy_policy_url(url):
+def find_privacy_policy_url(url):
     """
     Find the privacy policy url for the page. If no
     policy url is found, return None
@@ -169,7 +169,7 @@ def get_privacy_policy_url(url):
     :return: str or None
     """
     split_url = urlsplit(url)
-    html = get_site_html(url=url)  # Find page html
+    html = download_html(url=url)  # Find page html
     links = get_site_tags(html=html, tags=["a"])  # Get all links on page
     privacy_policy_link = find_privacy_link(
         links=links
@@ -264,8 +264,14 @@ def get_fuzzy_result(action, text):
         all_lines[line] = ratios
     features = get_word_features(ALL_WORDS)
     classifier_result = verify_statement(best_statement, features)
+    action_map = dict(
+        type=action.title(),
+        quote=best_statement,
+        confidence=best_ratio,
+        classification=classifier_result,
+    )
 
-    return [(best_statement, best_ratio, classifier_result)]
+    return action_map
 
 
 def verify_statement(statement, featureset):
