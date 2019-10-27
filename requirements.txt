@@ -10,3 +10,4 @@ codecov
 flake8
 fuzzywuzzy[speedup]
 gunicorn
+PyQtWebEngine

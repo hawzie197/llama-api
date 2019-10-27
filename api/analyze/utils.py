@@ -1,9 +1,6 @@
 from bs4 import BeautifulSoup
-import urllib.request
 from bs4.element import Comment
-from fuzzywuzzy import fuzz
 from nltk.stem.wordnet import WordNetLemmatizer
-from gensim.summarization import summarize
 from collections import defaultdict
 from api.analyze.classifier import (
     open_classifier,
@@ -19,6 +16,7 @@ from urllib.parse import urlsplit
 import os
 import csv
 from fuzzywuzzy import fuzz
+import scrapy
 
 # flake8: noqa
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -78,62 +76,7 @@ def text_from_html(body):
     return " ".join(t.strip() for t in visible_texts)
 
 
-def download_html(url: str):
-    """
-    Parses a url and downloads all html from the page.
-
-    :param url: str
-    :return: html
-    """
-    response = urllib.request.urlopen(url)
-    return response.read()
-
-
-def get_site_tags(html, tags=["a"]):
-    """
-    Build out a list of all html tags containing only tags
-    existing in the tags parameter.
-
-    :param: html: str
-    :param: tags: list<str>
-    """
-    soup = BeautifulSoup(html)
-
-    # For each of the wanted tags, parse out the tags from the web-page
-    links = list()
-    for t in tags:
-        links.extend(soup.find_all(t))
-    return links
-
-
-def find_privacy_link(links):
-    """
-    Find the link with the highest chance of matching Privacy Policy. If the
-    link does not contain Privacy or policy in it, it definitely is not a privacy policy
-
-    :param links: list<str>
-    :return: Link or None
-    """
-    policies = dict()
-    for link in links:
-        link_contents = link.contents
-        if len(link_contents) > 0:
-            ratio1 = fuzz.token_sort_ratio(link_contents[0], "Privacy Policy")
-            ratio2 = fuzz.token_sort_ratio(link_contents[0], "Data Policy")
-            if ratio1 > ratio2:
-                policies[ratio1] = link
-            else:
-                policies[ratio2] = link
-
-    link = policies[max(policies, key=int)]
-    privacy_exists = all([t in str(link).lower() for t in ("privacy",)])
-    data_policy_exists = all([t in str(link).lower() for t in ("data", "policy")])
-    if not any([privacy_exists, data_policy_exists]):
-        return None
-    return link
-
-
-def normalize_link(link, split_url):
+def normalize_link(link, base_url):
     """
     Break the base_uri and piracy policy path apart and rebuild
     the link to ensure it contains all the necessary http elements.
@@ -142,39 +85,41 @@ def normalize_link(link, split_url):
     :param split_url: split url  (urlib.parse)
     :return: string
     """
-    url = link.get("href", None)
-    if not url:
-        return None
+    split_url = urlsplit(base_url)
     protocol = split_url.scheme + "://"
     netloc = split_url.netloc
     final_url = ""
-    if not protocol in url:  # Protocol doesn't exists, lets make sure that gets added.
+    if not protocol in link:  # Protocol doesn't exists, lets make sure that gets added.
         final_url += protocol
-    if not netloc in url:
+    if not netloc in link:
         final_url += netloc + "/"
 
-    if url.startswith("/"):
-        final_url += url[1:]
+    if link.startswith("/"):
+        final_url += link[1:]
     else:
-        final_url += url
+        final_url += link
 
     return final_url
 
 
-def find_privacy_policy_url(url):
+def find_privacy_policy_url(resp, url):
     """
     Find the privacy policy url for the page. If no
     policy url is found, return None
     :param url: str
     :return: str or None
     """
-    split_url = urlsplit(url)
-    html = download_html(url=url)  # Find page html
-    links = get_site_tags(html=html, tags=["a"])  # Get all links on page
-    privacy_policy_link = find_privacy_link(
-        links=links
-    )  # Find privacy link, if None, research on homepage
-    return normalize_link(privacy_policy_link, split_url)
+    html = driver.page_source
+    soup = BeautifulSoup(html)
+    links = soup.find_all("a", href=True)
+    policies = dict()
+    for link in links:
+        comparisons = ("Privacy Policy", "Data Policy")
+        ratios = [fuzz.token_sort_ratio(link.text, c) for c in comparisons]
+        policies[max(ratios)] = link["href"]
+
+    best_match = policies[max(policies, key=int)]
+    return normalize_link(best_match, url)
 
 
 def load_keywords():
