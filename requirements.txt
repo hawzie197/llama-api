@@ -1,4 +1,4 @@
-django==2.2.5
+django==4.2.27
 djangorestframework
 google.cloud
 nltk
@@ -10,3 +10,4 @@ codecov
 flake8
 fuzzywuzzy[speedup]
 gunicorn
+sqlparse>=0.5.4 # not directly required, pinned by Snyk to avoid a vulnerability
